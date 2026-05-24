@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmier-FC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ─── RESET & BASE ─────────────────────────────────────────── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ─── SCROLLBAR PERSONALIZADA ───────────────────────────────── */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0d0f14; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #b8903a, #7a5c1e);
+            border-radius: 4px;
+        }
+
+        /* ─── CSS VARIABLES ─────────────────────────────────────────── */
+        :root {
+            --gold-light:   #d4a84b;
+            --gold-mid:     #b8903a;
+            --gold-dark:    #7a5c1e;
+            --bg-deep:      #080a0f;
+            --bg-card:      rgba(15, 18, 28, 0.82);
+            --bg-glass:     rgba(255, 255, 255, 0.04);
+            --text-primary: #e8e2d5;
+            --text-muted:   #9a9080;
+            --border-glass: rgba(212, 168, 75, 0.18);
+            --shadow-gold:  0 0 40px rgba(212, 168, 75, 0.12);
+            --font-display: 'Cinzel', serif;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body:    'DM Sans', sans-serif;
+        }
+
+        /* ─── BODY & FONDO ──────────────────────────────────────────── */
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.75;
+
+            /* Malla de degradado tipo "luxury dark" */
+            background-image:
+                radial-gradient(ellipse 80% 60% at 20% 0%,  rgba(184, 144, 58, 0.14) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(122, 92, 30, 0.10) 0%, transparent 60%),
+                radial-gradient(ellipse 100% 80% at 50% 50%, rgba(8, 10, 15, 1) 0%, transparent 100%);
+            background-attachment: fixed;
+        }
+
+        /* ─── RUIDO SUTIL DE TEXTURA ─────────────────────────────────  */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER / BANNER TOP ────────────────────────────────────  */
+        .site-header {
+            text-align: center;
+            padding: 56px 24px 32px;
+            position: relative;
+            z-index: 1;
+            animation: fadeDown 0.9s ease both;
+        }
+
+        .site-header .brand-tag {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            border: 1px solid var(--border-glass);
+            padding: 5px 18px;
+            border-radius: 2px;
+            margin-bottom: 14px;
+            background: var(--bg-glass);
+        }
+
+        .site-header h1.main-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: var(--gold-light);
+            text-shadow: 0 0 60px rgba(212, 168, 75, 0.35);
+        }
+
+        .header-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+            margin: 20px auto 0;
+        }
+
+        /* ─── CONTENEDOR PRINCIPAL ───────────────────────────────────  */
+        .contenedor {
+            display: flex;
+            gap: 0;
+            padding: 0 24px 60px;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* ─── COLUMNA IZQUIERDA ──────────────────────────────────────  */
+        .columna-izquierda {
+            flex: 1;
+            padding: 40px 44px 40px 36px;
+            border-right: 1px solid var(--border-glass);
+            animation: fadeLeft 0.9s ease 0.2s both;
+        }
+
+        /* ─── COLUMNA DERECHA ────────────────────────────────────────  */
+        .columna-derecha {
+            flex: 1;
+            padding: 40px 36px 40px 44px;
+            animation: fadeRight 0.9s ease 0.35s both;
+        }
+
+        /* ─── TIPOGRAFÍAS ────────────────────────────────────────────  */
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2.4rem);
+            font-weight: 600;
+            color: var(--gold-light);
+            letter-spacing: 0.08em;
+            margin-bottom: 28px;
+            line-height: 1.2;
+            text-shadow: 0 0 30px rgba(212, 168, 75, 0.25);
+        }
+
+        h3 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 600;
+            color: var(--gold-light);
+            letter-spacing: 0.04em;
+            margin: 28px 0 12px;
+        }
+
+        h5 {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--gold-mid);
+            letter-spacing: 0.06em;
+            margin: 24px 0 10px;
+            text-transform: uppercase;
+            font-size: 0.82rem;
+        }
+
+        h6 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin: 20px 0 8px;
+            font-style: italic;
+        }
+
+        p {
+            font-size: 0.93rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+            margin-bottom: 12px;
+        }
+
+        /* ─── LISTAS ─────────────────────────────────────────────────  */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            color: var(--text-primary);
+            padding: 8px 0 8px 20px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--gold-mid);
+            font-size: 0.5rem;
+            top: 12px;
+        }
+
+        /* ─── SEPARADORES ────────────────────────────────────────────  */
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-glass), transparent);
+            margin: 28px 0;
+        }
+
+        /* ─── LOGO PRINCIPAL (PRIMERA IMAGEN) ────────────────────────  */
+        .columna-izquierda > img:first-of-type,
+        .logo-principal {
+            display: block;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 1px var(--border-glass),
+                0 0 30px rgba(212, 168, 75, 0.25),
+                0 8px 40px rgba(0, 0, 0, 0.6);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .columna-izquierda > img:first-of-type:hover {
+            transform: scale(1.04);
+            box-shadow:
+                0 0 0 1px rgba(212, 168, 75, 0.4),
+                0 0 55px rgba(212, 168, 75, 0.35),
+                0 12px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ─── IMÁGENES DE FUNDADORES ─────────────────────────────────  */
+        .columna-izquierda img:not(:first-of-type) {
+            border-radius: 15%;
+            display: block;
+            margin: 10px 0 16px;
+            box-shadow:
+                0 0 0 1px var(--border-glass),
+                0 4px 24px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(212, 168, 75, 0.1);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            object-fit: cover;
+        }
+
+        .columna-izquierda img:not(:first-of-type):hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow:
+                0 0 0 1px rgba(212, 168, 75, 0.3),
+                0 12px 36px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(212, 168, 75, 0.18);
+        }
+
+        /* ─── TARJETAS GLASSMORPHISM ─────────────────────────────────  */
+        .glass-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 24px 26px;
+            margin: 20px 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-gold), 0 2px 20px rgba(0,0,0,0.3);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 168, 75, 0.32);
+            box-shadow: 0 0 55px rgba(212, 168, 75, 0.16), 0 4px 30px rgba(0,0,0,0.4);
+        }
+
+        /* ─── SECCIÓN FUNDADORES ─────────────────────────────────────  */
+        .founder-card {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 16px 0;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .founder-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 0 30px rgba(212, 168, 75, 0.14);
+        }
+
+        .founder-card img {
+            border-radius: 15% !important;
+            width: 90px !important;
+            height: 90px !important;
+            flex-shrink: 0;
+            object-fit: cover;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 15px rgba(212,168,75,0.12) !important;
+        }
+
+        .founder-info h6 {
+            margin: 0 0 4px;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .founder-info span {
+            font-size: 0.78rem;
+            color: var(--gold-mid);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-family: var(--font-display);
+        }
+
+        /* ─── BADGE / ETIQUETA DESTACADA ─────────────────────────────  */
+        .section-badge {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            letter-spacing: 0.22em;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            border: 1px solid var(--border-glass);
+            padding: 4px 14px;
+            border-radius: 2px;
+            background: var(--bg-glass);
+            margin-bottom: 10px;
+        }
+
+        /* ─── STAT CARDS ─────────────────────────────────────────────  */
+        .stats-row {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            flex: 1;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 16px 14px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(212, 168, 75, 0.3);
+        }
+
+        .stat-item .stat-number {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--gold-light);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* ─── LÍNEA DECORATIVA CON ICONO ─────────────────────────────  */
+        .deco-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 28px 0;
+        }
+
+        .deco-divider::before,
+        .deco-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-glass));
+        }
+
+        .deco-divider::after {
+            background: linear-gradient(90deg, var(--border-glass), transparent);
+        }
+
+        .deco-divider span {
+            color: var(--gold-mid);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-family: var(--font-display);
+            white-space: nowrap;
+        }
+
+        /* ─── ANIMACIONES ────────────────────────────────────────────  */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Shimmer en el título del header */
+        .site-header h1.main-title {
+            background: linear-gradient(
+                90deg,
+                var(--gold-dark) 0%,
+                var(--gold-light) 40%,
+                #fff8e7 50%,
+                var(--gold-light) 60%,
+                var(--gold-dark) 100%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* ─── FOOTER ─────────────────────────────────────────────────  */
+        .site-footer {
+            text-align: center;
+            padding: 28px 24px;
+            border-top: 1px solid var(--border-glass);
+            position: relative;
+            z-index: 1;
+        }
+
+        .site-footer p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: var(--font-display);
+        }
+
+        .site-footer span {
+            color: var(--gold-mid);
+        }
+
+        /* ─── RESPONSIVE ─────────────────────────────────────────────  */
+        @media (max-width: 768px) {
+            .contenedor {
+                flex-direction: column;
+                padding: 0 16px 48px;
+                gap: 0;
+            }
+
+            .columna-izquierda {
+                border-right: none;
+                border-bottom: 1px solid var(--border-glass);
+                padding: 32px 20px;
+            }
+
+            .columna-derecha {
+                padding: 32px 20px;
+            }
+
+            .stats-row {
+                flex-direction: column;
+            }
+
+            .site-header {
+                padding: 40px 16px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER SUPERIOR -->
+    <header class="site-header">
+        <div class="brand-tag">Studio · Bogotá, Colombia</div>
+        <h1 class="main-title">Programmier-FC</h1>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="contenedor">
+
+        <!-- ══════════ COLUMNA 1 ══════════ -->
+        <div class="columna-izquierda">
+            <h1>Sobre nosotros</h1>
+
+            <!-- LOGO PRINCIPAL — centrado y elegante -->
+            <img
+                src="Imagenes utilizadas/logo_programmier_fc_refined.png"
+                alt="Logo de la empresa"
+                height="200" width="200"
+                style="display:block;margin:0 auto 28px;border-radius:50%;
+                       box-shadow:0 0 0 1px rgba(212,168,75,.22),0 0 36px rgba(212,168,75,.28),0 8px 40px rgba(0,0,0,.6);
+                       transition:transform .4s ease,box-shadow .4s ease;"
+                onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 0 1px rgba(212,168,75,.45),0 0 60px rgba(212,168,75,.4),0 12px 50px rgba(0,0,0,.7)'"
+                onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 0 1px rgba(212,168,75,.22),0 0 36px rgba(212,168,75,.28),0 8px 40px rgba(0,0,0,.6)'"
+            >
+
+            <div class="deco-divider"><span>Quiénes somos</span></div>
+
+            <div class="glass-card">
+                <h3 style="margin-top:0;">Quiénes somos</h3>
+                <p>Somos un equipo de programadores encargados de hacer distintos tipos de software con finalidad de poder satisfacer a nuestros clientes con nuestros servicios , con la habilidad de un buen servicio y una excelente forma de conectar con el cliente y poder darle exclusivamente lo que él quiere con una referencia de él cliente o llegar a lo que el cliente está queriendo con una conversación hablando de colores , la organización de todo lo que el software va a contener , aparte de obviamente su funcionalidad , para qué tipo de equipos será destinado el software etc.. </p>
+            </div>
+
+            <div class="deco-divider"><span>Organización</span></div>
+
+            <h3>Cómo estamos organizados</h3>
+            <div class="glass-card">
+                <h5>Programadores-Desarrolladores</h5>
+                <ul>
+                    <li>Juan David Albuja Sanchez</li>
+                    <li>Yeimar Palacio Ibargüen</li>
+                </ul>
+            </div>
+
+            <div class="deco-divider"><span>Fundadores</span></div>
+
+            <h5>Fundadores</h5>
+
+            <!-- Founder 1 -->
+            <div class="founder-card">
+                <img src="Imagenes utilizadas/Yei.png" alt="Foto de Yeimar" height="300" width="300">
+                <div class="founder-info">
+                    <h6>Yeimar Palacio Ibargüen</h6>
+                    <span>Co-Founder · Dev</span>
+                </div>
+            </div>
+
+            <!-- Founder 2 -->
+            <div class="founder-card">
+                <img src="Imagenes utilizadas/yo.png" alt="Foto de Juan" height="200" width="200">
+                <div class="founder-info">
+                    <h6>Juan David Albuja Sanchez</h6>
+                    <span>Co-Founder · Dev</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══════════ COLUMNA 2 ══════════ -->
+        <div class="columna-derecha">
+            <h1>Nuestro Primer trabajo</h1>
+
+            <p>En este apartado hablaremos de nuestro primer trabajo teniendo varias cosas en cuenta como la persona a la que se le estuvo haciendo , el tiempo aproximado del trabajo , qué se nos estuvo pidiendo junto a algunas especificaciones entre otras cosas las cuales se verán a continuación</p>
+
+            <!-- Stats destacadas -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-number">2.5</span>
+                    <span class="stat-label">Meses</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100k</span>
+                    <span class="stat-label">COP · Costos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1</span>
+                    <span class="stat-label">Cliente feliz</span>
+                </div>
+            </div>
+
+            <div class="deco-divider"><span>El proyecto</span></div>
+
+            <div class="glass-card">
+                <span class="section-badge">Caso de estudio</span>
+                <h5>La pagina Web</h5>
+                <p>Este era nuestro primer trabajo por lo que teníamos que esforzarnos al máximo para dar un muy buen comienzo y aparte de eso saber cuál era nuestro máximo en ese momento y comparar cuánto habíamos avanzado en trabajos futuros, pero bueno , lo primero que teníamos que hacer es saber qué íbamos a hacer así que empezamos a buscar en qué podíamos ayudar a alguien que necesite nuestros servicios , en esa búsqueda recordamos algo que nos había comentado un amigo hace unos meses , y es que sus papás son dueños de un pequeño restaurante en el cual tenían el problema de que no tenían la suficiente visibilidad que necesitaban y esto disminuía las ventas hechas en los distintos días. Entonces ya teníamos nuestro objetivo , hacer una página Web publicitaria la cual mostraría distintas cosas como sus platos , su ubicación etc.. aparte de el contacto del restaurante para los domicilios y el horario de atención y todo esto lo podrá ver cualquier persona con un link y código QR que se compartirá por redes sociales y el QR en fotos repartidas por todo el barrio </p>
+            </div>
+
+            <div class="deco-divider"><span>Cliente</span></div>
+
+            <div class="glass-card">
+                <span class="section-badge">Proceso</span>
+                <h5>Proceso de hablado con el cliente</h5>
+                <p>Lo primero que hicimos es ir a hablar con nuestros clientes a lo que nos encontramos primeramente con nuestro amigo al cual le comentamos la idea que teníamos en mente y en muestra de que le gustó lo que teníamos planeado nos llevó con sus padres a los que se les comentó igualmente lo que teníamos planeado y pidiéndoles diferentes datos como qué el diseño de la página , los distintos colores que querían para esta misma, la información que querían que contuviera y si querían adicionalmente algo en específico tomando así con mucha atención cada dato que nos daban y anotándolo para que el resultado sea exactamente lo que ellos nos estaban pidiendo sin ningún tipo de problema y así sintieran un excelente servicio y acabando todo el trabajo</p>
+
+                <img src="" alt="" height="" width="">
+            </div>
+
+            <div class="deco-divider"><span>Resultados</span></div>
+
+            <div class="glass-card">
+                <span class="section-badge">Cierre</span>
+                <h5>Tiempo y costo</h5>
+                <p>En este momento ya teníamos qué íbamos a hacer y cómo querían que lo hiciéramos así que ya solo quedaba convertir la idea en realidad por lo que nos pusimos manos a la obra afrontando y viendo varias problemáticas con varios temas como lo que sería la disponibilidad de tiempo de mi compañero y yo aparte de las peleas constantes con el código , una imagen que no aparecía , el texto que se movía de lugar y desorganizaba todo lo demás , un color mal colocado , una variable mal definida era el pan de cada día en nuestro trabajo pero debíamos ser pacientes y constantes para hacer todo con la mayor concentración posible y así dar el mejor resultado.</p>
+                <p>al final se terminó todo el trabajo en un lapso de 2 un meses y 2 semanas con un trabajo constante en todo el diseño ,la gran corrección de errores la comunicación y trabajo de mi compañero y yo para resultar con un resultado profesional y con los que nuestros clientes quedaron sumamente satisfechos. En cuanto al costo , gastamos aproximadamente unos 100.000.00 pesos colombianos entre los gastos de luz , internet y agua de consumo ya que se usó un dominio público al igual que el Hosting , no teniendo así más gastos en nuestro proyecto    </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p>© 2025 <span>Programmier-FC</span> · Todos los derechos reservados</p>
+    </footer>
+
+</body>
+</html>

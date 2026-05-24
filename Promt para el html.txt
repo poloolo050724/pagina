@@ -1,0 +1,46 @@
+Quiero que actúes como un desarrollador Frontend y diseñador UI/UX profesional especializado en HTML y CSS moderno. Te voy a proporcionar un archivo HTML y tu tarea será crear TODO el diseño CSS necesario dentro del mismo archivo pero tienes ESTRICTAMENTE PROHIBIDO MODIFICAR EL HTML, entregándome el resultado final en un único archivo HTML completo (con el CSS integrado en una etiqueta ).
+Requisitos obligatorios:
+
+1. La primera imagen del HTML (el logo principal) debe quedar perfectamente centrada horizontalmente en la página y verse elegante y profesional.
+2. Las otras dos imágenes deben conservar exactamente su posición actual dentro de la estructura del HTML, pero debes agregarles:
+   * border-radius: 15%;
+   * sombras suaves;
+   * mejor adaptación visual al diseño general.
+3. Los títulos h1 y h3 deben usar tipografías más elegantes y modernas.
+   * Puedes usar Google Fonts.
+   * El diseño debe verse premium y limpio.
+4. Mantén intacta la estructura principal del HTML.
+   * No elimines contenido.
+   * No cambies textos.
+   * No rompas funcionalidades existentes.
+5. Además de lo anterior, agrega al menos 10 mejoras visuales profesionales adicionales para que la página se vea moderna, estética y bien diseñada. Algunas ideas válidas:
+   * fondo degradado elegante;
+   * sombras modernas;
+   * animaciones suaves;
+   * efecto hover;
+   * espaciado profesional;
+   * diseño responsive;
+   * contenedores modernos;
+   * efectos glassmorphism;
+   * transición suave entre elementos;
+   * botones estilizados;
+   * mejor alineación visual;
+   * efectos de iluminación;
+   * tarjetas modernas;
+   * separación visual entre secciones;
+   * scrollbar personalizada;
+   * efectos de aparición;
+   * diseño minimalista premium.
+6. El diseño debe verse:
+   * moderno;
+   * limpio;
+   * profesional;
+   * visualmente atractivo;
+   * responsive para celulares y PC.
+7. Quiero que el resultado final me lo entregues únicamente en un solo archivo HTML completo, listo para copiar y ejecutar.
+8. Usa CSS avanzado y buenas prácticas de diseño visual profesional.
+9. No expliques lo que hiciste. Solo devuelve el código completo final.
+
+
+
+Cabe destacar que se utilizo una IA para generar este promt y asi tener un mejor resultado 
